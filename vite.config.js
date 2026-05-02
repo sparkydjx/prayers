@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // Relative asset URLs so the app works from GitHub Pages project sites
+  // (e.g. https://sparkydjx.github.io/prayers/) and from local file preview of dist/.
+  base: './',
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
@@ -16,17 +19,17 @@ export default defineConfig({
         theme_color: '#1f3a8a',
         background_color: '#ffffff',
         display: 'standalone',
-        start_url: '/',
-        scope: '/',
+        start_url: './',
+        scope: './',
         icons: [
           {
-            src: '/icon.svg',
+            src: './icon.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
             purpose: 'any'
           },
           {
-            src: '/icon-maskable.svg',
+            src: './icon-maskable.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
             purpose: 'maskable'
