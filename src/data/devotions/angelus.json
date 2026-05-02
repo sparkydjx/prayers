@@ -1,0 +1,18 @@
+{
+  "id": "angelus",
+  "title": "Angelus",
+  "prayerIds": [
+    "sign-of-the-cross",
+    "angelus-opening",
+    "hail-mary",
+    "angelus-response-1",
+    "angelus-versicle-2",
+    "hail-mary",
+    "angelus-response-2",
+    "angelus-versicle-3",
+    "hail-mary",
+    "angelus-response-3",
+    "glory-be",
+    "angelus-closing"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "sign-of-the-cross": {
+    "title": "The Sign of the Cross",
+    "text": "In nomine Patris, et Filii, et Spiritus Sancti. Amen."
+  },
+  "apostles-creed": {
+    "title": "The Apostles' Creed",
+    "text": "Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae, et in Iesum Christum, Filium eius unicum, Dominum nostrum, qui conceptus est de Spiritu Sancto, natus ex Maria Virgine, passus sub Pontio Pilato, crucifixus, mortuus, et sepultus; descendit ad inferos; tertia die resurrexit a mortuis; ascendit ad caelos, sedet ad dexteram Dei Patris omnipotentis; inde venturus est iudicare vivos et mortuos. Credo in Spiritum Sanctum, sanctam Ecclesiam catholicam, sanctorum communionem, remissionem peccatorum, carnis resurrectionem, vitam aeternam. Amen."
+  },
+  "our-father": {
+    "title": "Our Father",
+    "text": "Pater noster, qui es in caelis, sanctificetur nomen tuum. Adveniat regnum tuum, fiat voluntas tua, sicut in caelo, et in terra. Panem nostrum quotidianum da nobis hodie, et dimitte nobis debita nostra sicut et nos dimittimus debitoribus nostris. Et ne nos inducas in tentationem, sed libera nos a malo. Amen."
+  },
+  "hail-mary": {
+    "title": "Hail Mary",
+    "text": "Ave Maria, gratia plena, Dominus tecum; benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc, et in hora mortis nostrae. Amen."
+  },
+  "glory-be": {
+    "title": "Glory be",
+    "text": "Gloria Patri, et Filio, et Spiritui Sancto.\nSicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen."
+  },
+  "fatima-decade-prayer": {
+    "title": "Fatima prayer",
+    "text": "Domine Iesu, dimitte nobis debita nostra, salva nos ab igne inferni; perduc in caelum omnes animas, praesertim eas, quae misericordiae tuae maxime indigent.\n(Our Lady at Fatima, 13th July 1917)"
+  },
+  "hail-holy-queen": {
+    "title": "Hail Holy Queen",
+    "text": "Salve Regina, mater misericordiae; vita, dulcedo, et spes nostra, salve; ad te clamamus exsules filii Evae, ad te suspiramus, gementes et flentes in hac lacrimarum valle. Eia ergo, advocata nostra, illos tuos misericordes oculos ad nos converte: et Iesum, benedictum fructum ventris tui, nobis post hoc exsilium ostende. O clemens, o pia, o dulcis Virgo Maria. Ora pro nobis, Sancta Dei Genetrix. Ut digni efficiamur promissionibus Christi."
+  },
+  "final-rosary-prayer": {
+    "title": "Final Rosary Prayer",
+    "text": "Oremus. Deus, cuius Unigenitus per vitam, mortem, et resurrectionem suam nobis salutis aeternae praemia comparavit: concede, quaesumus: ut haec mysteria sacratissimo beatae Mariae Virginis Rosario recolentes, et imitemur quod continent, et quod promittunt, assequamur, per eundem Christum Dominum nostrum. Amen."
+  },
+  "fatima-prayer-2": {
+    "title": "Fatima prayer #2",
+    "text": "Deus meus, credo, adoro, spero, et amo te. Peto veniam tibi pro iis qui non credunt, non adorant, non sperant, et non amant te."
+  }
+}

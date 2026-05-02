@@ -1,0 +1,86 @@
+{
+  "sign-of-the-cross": {
+    "title": "The Sign of the Cross",
+    "text": "In the name of the Father of the Son and of the Holy Spirit. Amen"
+  },
+  "apostles-creed": {
+    "title": "The Apostles' Creed",
+    "text": "I believe in God, the Father Almighty, Creator of heaven and earth; and in Jesus Christ, His only Son, our Lord; who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died, and was buried. He descended into hell. On the third day, He rose again; He ascended into heaven and sits at the right hand of God, the Father Almighty. From there, He will come to judge the living and the dead. I believe in the Holy Spirit, the Holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."
+  },
+  "our-father": {
+    "title": "Our Father",
+    "text": "Our Father, who art in heaven, hallowed be Thy name: Thy kingdom come: Thy will be done on earth as it is in heaven. Give us this day our daily bread: and forgive us our trespasses as we forgive those who trespass against us. And do not lead us into temptation, but deliver us from the evil one."
+  },
+  "hail-mary": {
+    "title": "Hail Mary",
+    "text": "Hail Mary, full of grace, the Lord is with thee; blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."
+  },
+  "glory-be": {
+    "title": "Glory be",
+    "text": "Glory be to the Father, and to the Son and to the Holy Spirit.\nAs it was in the beginning, is now and ever shall be, world without end. Amen."
+  },
+  "fatima-decade-prayer": {
+    "title": "Fatima prayer",
+    "text": "“O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to Heaven, especially those in most need of Your Mercy”.\n(Our Lady at Fatima, 13th July 1917)"
+  },
+  "hail-holy-queen": {
+    "title": "Hail Holy Queen",
+    "text": "Hail, holy Queen, Mother of Mercy! our life, our sweetness, and our hope! To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley, of tears. Turn, then, most gracious Advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb, Jesus; O clement, O loving, O sweet Virgin Mary."
+  },
+  "final-rosary-prayer": {
+    "title": "Final Rosary Prayer",
+    "text": "“O God whose only begotten Son by His Life has purchased for us the rewards of eternal life, Grant that we beseech Thee while meditating upon these mysteries of the Most Holy Rosary of the Blessed Virgin Mary, we may both imitate what they contain and obtain what they promise, through the same Christ our Lord Amen.”"
+  },
+  "fatima-prayer-2": {
+    "title": "Fatima prayer #2",
+    "text": "“My God, I believe, I adore, I hope, and I love You. I beg pardon of You for those who do not believe, do not adore, do not hope, and do not love You.”"
+  },
+  "mystery-joyful-1": {
+    "title": "First Joyful Mystery — The Annunciation",
+    "text": "The Angel Gabriel announces to Mary that she will conceive and bear the Son of God."
+  },
+  "mystery-joyful-2": {
+    "title": "Second Joyful Mystery — The Visitation",
+    "text": "Mary visits Elizabeth; John the Baptist leaps in his mother’s womb."
+  },
+  "mystery-joyful-3": {
+    "title": "Third Joyful Mystery — The Nativity",
+    "text": "Jesus is born in Bethlehem."
+  },
+  "mystery-joyful-4": {
+    "title": "Fourth Joyful Mystery — The Presentation",
+    "text": "Mary and Joseph present the infant Jesus in the Temple."
+  },
+  "mystery-joyful-5": {
+    "title": "Fifth Joyful Mystery — The Finding in the Temple",
+    "text": "The child Jesus is found in the Temple, sitting among the teachers."
+  },
+  "angelus-opening": {
+    "title": "Angelus — opening",
+    "text": "The Angel of the Lord declared unto Mary."
+  },
+  "angelus-response-1": {
+    "title": "Angelus",
+    "text": "And she conceived of the Holy Spirit."
+  },
+  "angelus-versicle-2": {
+    "title": "Angelus",
+    "text": "Behold the handmaid of the Lord."
+  },
+  "angelus-response-2": {
+    "title": "Angelus",
+    "text": "Be it done unto me according to thy word."
+  },
+  "angelus-versicle-3": {
+    "title": "Angelus",
+    "text": "And the Word was made Flesh."
+  },
+  "angelus-response-3": {
+    "title": "Angelus",
+    "text": "And dwelt among us."
+  },
+  "angelus-closing": {
+    "title": "Angelus — closing",
+    "text": "Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ."
+  }
+}

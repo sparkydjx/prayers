@@ -1,0 +1,17 @@
+{
+  "name": "prayers",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@rollup/rollup-win32-arm64-msvc": "^4.60.2",
+    "@rollup/rollup-win32-x64-msvc": "^4.60.2",
+    "vite": "^6.2.0",
+    "vite-plugin-pwa": "^1.2.0"
+  }
+}
