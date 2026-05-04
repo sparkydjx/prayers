@@ -7,19 +7,44 @@ import {
   expandRosaryType,
   rosaryTypeToPrayerIds,
   getAudioUrl,
-  expandRosaryTypeBilingual
+  expandRosaryTypeBilingual,
+  mysteryGroups
 } from './data/index.js'
 
 registerSW({ immediate: true })
 
+const ROSARY_ORDER = [
+  'rosary-joyful',
+  'rosary-sorrowful',
+  'rosary-glorious',
+  'rosary-luminous'
+]
+
+/** @type {import('./data/index.js').RosaryType[]} */
+const orderedRosaryTypes = ROSARY_ORDER.map((id) =>
+  rosaryTypes.find((r) => r.id === id)
+).filter(Boolean)
+
 const angelus = devotions.find((d) => d.id === 'angelus')
-const rosaryJoyful = rosaryTypes.find((r) => r.id === 'rosary-joyful')
 const angelusSteps = angelus ? expandDevotion(angelus) : []
-const rosarySteps = rosaryJoyful ? expandRosaryType(rosaryJoyful) : []
-const rosaryIds = rosaryJoyful ? rosaryTypeToPrayerIds(rosaryJoyful) : []
+
+const firstRosary = orderedRosaryTypes[0]
+const rosaryIds = firstRosary ? rosaryTypeToPrayerIds(firstRosary) : []
 const sampleAudio = rosaryIds.length ? getAudioUrl(rosaryIds[0]) : undefined
-const rosaryBilingual =
-  rosaryJoyful ? expandRosaryTypeBilingual(rosaryJoyful) : []
+
+const rosarySmokeHtml = orderedRosaryTypes
+  .map((rt) => {
+    const n = expandRosaryType(rt).length
+    const label = mysteryGroups[rt.mysteryGroupId]?.title ?? rt.title
+    return `<p><strong>${label}</strong> — ${n} steps.</p>`
+  })
+  .join('')
+
+/** @type {{ id: string, english: { title: string, text: string }, latin: { title: string, text: string } }[]} */
+let activeRosarySteps = []
+
+/** @type {HTMLButtonElement | null} */
+let lastRosaryButton = null
 
 /** @param {HTMLElement} el */
 function setVisible(el, visible) {
@@ -30,10 +55,11 @@ function setVisible(el, visible) {
 /**
  * @param {HTMLElement} container
  * @param {'en' | 'la' | 'both'} mode
+ * @param {typeof activeRosarySteps} steps
  */
-function renderRosarySteps(container, mode) {
+function renderRosarySteps(container, mode, steps) {
   container.replaceChildren()
-  for (const step of rosaryBilingual) {
+  for (const step of steps) {
     const article = document.createElement('article')
     article.className = 'rosary-step'
 
@@ -84,16 +110,7 @@ document.querySelector('#app').innerHTML = `
       then <strong>devotions</strong> and <strong>mystery groups</strong> as ordered id lists,
       <strong>audio</strong> keyed by the same ids, and the PWA service worker for offline use.
     </p>
-    <section class="actions">
-      <button
-        type="button"
-        class="btn btn-primary"
-        id="rosary-open"
-        ${rosaryBilingual.length ? '' : ' disabled'}
-      >
-        Rosary (Joyful Mysteries)
-      </button>
-    </section>
+    <section class="actions actions--rosary" id="rosary-actions" aria-label="Rosary by mystery set"></section>
     <section class="panel">
       <h2>Data layout</h2>
       <ul class="file-list">
@@ -109,7 +126,8 @@ document.querySelector('#app').innerHTML = `
     <section class="panel">
       <h2>Smoke check</h2>
       <p><strong>Angelus</strong> — ${angelusSteps.length} steps (each step is one prayer id resolved from <code>prayers.json</code>).</p>
-      <p><strong>Rosary (joyful)</strong> — ${rosarySteps.length} steps; audio for first id: <code>${sampleAudio ?? 'not set — add paths in audio.json'}</code></p>
+      ${rosarySmokeHtml || '<p>No rosary types loaded.</p>'}
+      <p>Audio for first prayer id of the first rosary: <code>${sampleAudio ?? 'not set — add paths in audio.json'}</code></p>
     </section>
     <p class="hint">Add MP3s under <code>public/audio/</code> and map them in <code>audio.json</code>.</p>
   </main>
@@ -123,9 +141,7 @@ document.querySelector('#app').innerHTML = `
       aria-labelledby="rosary-dialog-title"
     >
       <header class="rosary-sheet__header">
-        <h2 id="rosary-dialog-title" class="rosary-sheet__title">
-          ${rosaryJoyful ? rosaryJoyful.title : 'Rosary'}
-        </h2>
+        <h2 id="rosary-dialog-title" class="rosary-sheet__title">Rosary</h2>
         <button type="button" class="btn-icon" id="rosary-close" aria-label="Close rosary">
           ×
         </button>
@@ -152,11 +168,24 @@ document.querySelector('#app').innerHTML = `
   </div>
 `
 
+const rosaryActions = document.getElementById('rosary-actions')
+if (rosaryActions) {
+  for (const rt of orderedRosaryTypes) {
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'btn btn-primary btn-rosary'
+    btn.dataset.rosaryId = rt.id
+    const label = mysteryGroups[rt.mysteryGroupId]?.title ?? rt.title
+    btn.textContent = `Rosary — ${label}`
+    rosaryActions.append(btn)
+  }
+}
+
 const rosarySheet = document.getElementById('rosary-sheet')
-const rosaryOpen = document.getElementById('rosary-open')
 const rosaryClose = document.getElementById('rosary-close')
 const rosaryBackdrop = document.getElementById('rosary-backdrop')
 const rosaryStepsEl = document.getElementById('rosary-steps')
+const rosaryDialogTitle = document.getElementById('rosary-dialog-title')
 
 /** @type {NodeListOf<HTMLInputElement>} */
 const langRadios = document.querySelectorAll('input[name="rosary-lang"]')
@@ -171,35 +200,47 @@ function currentLangMode() {
   return 'en'
 }
 
-function openRosary() {
-  if (!rosaryBilingual.length) return
+/**
+ * @param {string} rosaryTypeId
+ * @param {HTMLButtonElement | null} opener
+ */
+function openRosary(rosaryTypeId, opener) {
+  const rt = rosaryTypes.find((r) => r.id === rosaryTypeId)
+  if (!rt || !rosarySheet || !rosaryStepsEl) return
+  lastRosaryButton = opener
+  activeRosarySteps = expandRosaryTypeBilingual(rt)
+  if (rosaryDialogTitle) rosaryDialogTitle.textContent = rt.title
   setVisible(rosarySheet, true)
-  renderRosarySteps(rosaryStepsEl, currentLangMode())
-  rosaryClose.focus()
+  renderRosarySteps(rosaryStepsEl, currentLangMode(), activeRosarySteps)
+  rosaryClose?.focus()
 }
 
 function closeRosary() {
-  setVisible(rosarySheet, false)
-  rosaryOpen?.focus()
+  if (rosarySheet) setVisible(rosarySheet, false)
+  lastRosaryButton?.focus()
 }
 
-rosaryOpen?.addEventListener('click', openRosary)
+rosaryActions?.addEventListener('click', (e) => {
+  const t = e.target
+  if (!(t instanceof Element)) return
+  const btn = t.closest('[data-rosary-id]')
+  if (!(btn instanceof HTMLButtonElement)) return
+  const id = btn.dataset.rosaryId
+  if (id) openRosary(id, btn)
+})
+
 rosaryClose?.addEventListener('click', closeRosary)
 rosaryBackdrop?.addEventListener('click', closeRosary)
 
 for (const r of langRadios) {
   r.addEventListener('change', () => {
-    if (rosarySheet.classList.contains('hidden')) return
-    renderRosarySteps(rosaryStepsEl, currentLangMode())
+    if (rosarySheet?.classList.contains('hidden')) return
+    renderRosarySteps(rosaryStepsEl, currentLangMode(), activeRosarySteps)
   })
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !rosarySheet.classList.contains('hidden')) {
+  if (e.key === 'Escape' && rosarySheet && !rosarySheet.classList.contains('hidden')) {
     closeRosary()
   }
 })
-
-if (rosaryBilingual.length) {
-  renderRosarySteps(rosaryStepsEl, 'en')
-}

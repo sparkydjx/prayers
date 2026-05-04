@@ -54,5 +54,65 @@
   "mystery-joyful-5": {
     "title": "Quintum Mysterium Gaudiosum — Inventio in Templo",
     "text": "Puer Iesus in Templo inter doctores sedens invenitur."
+  },
+  "mystery-sorrowful-1": {
+    "title": "Primum Mysterium Dolorosum — Agonia in Horto",
+    "text": "Iesus in horto Gethsemani orat; anima eius contristata est usque ad mortem."
+  },
+  "mystery-sorrowful-2": {
+    "title": "Secundum Mysterium Dolorosum — Flagellatio",
+    "text": "Iesus ad columnam alligatus flagellatur."
+  },
+  "mystery-sorrowful-3": {
+    "title": "Tertium Mysterium Dolorosum — Coronatio Spinis",
+    "text": "Iesus spinis coronatur et tamquam Rex Iudaeorum illuditur."
+  },
+  "mystery-sorrowful-4": {
+    "title": "Quartum Mysterium Dolorosum — Portatio Crucis",
+    "text": "Iesus crucem suam ad Calvariae locum baiulat, sub onere cadens."
+  },
+  "mystery-sorrowful-5": {
+    "title": "Quintum Mysterium Dolorosum — Crucifixio et Mors",
+    "text": "Iesus in cruce clavis confixus moritur pro salute nostra."
+  },
+  "mystery-glorious-1": {
+    "title": "Primum Mysterium Gloriosum — Resurrectio",
+    "text": "Christus tertia die a mortuis resurgit, peccato et morti victor."
+  },
+  "mystery-glorious-2": {
+    "title": "Secundum Mysterium Gloriosum — Ascensio",
+    "text": "Iesus quadraginta diebus post resurrectionem in caelum ascendit."
+  },
+  "mystery-glorious-3": {
+    "title": "Tertium Mysterium Gloriosum — Descensus Spiritus Sancti",
+    "text": "Spiritus Sanctus in Mariam et Apostolos die Pentecostes descendit."
+  },
+  "mystery-glorious-4": {
+    "title": "Quartum Mysterium Gloriosum — Assumptio",
+    "text": "Beata Virgo Maria anima et corpore in caelestem gloriam assumitur."
+  },
+  "mystery-glorious-5": {
+    "title": "Quintum Mysterium Gloriosum — Coronatio in Caelo",
+    "text": "Maria Regina caeli et terrae coronatur."
+  },
+  "mystery-luminous-1": {
+    "title": "Primum Mysterium Luminosum — Baptismus in Iordane",
+    "text": "Christus a Ioanne in Iordane baptizatur; vox Patris Filium dilectum profitetur."
+  },
+  "mystery-luminous-2": {
+    "title": "Secundum Mysterium Luminosum — Prima Signi in Cana Galilaeae",
+    "text": "Iesus ad Mariae preces aquam in vinum vertit, gloriam suam manifestans."
+  },
+  "mystery-luminous-3": {
+    "title": "Tertium Mysterium Luminosum — Regni Dei Praedicatio",
+    "text": "Iesus omnes ad paenitentiam et fidem in Evangelium Regni vocat."
+  },
+  "mystery-luminous-4": {
+    "title": "Quartum Mysterium Luminosum — Transfiguratio",
+    "text": "Iesus coram Petro, Iacobo, et Ioanne in gloria transfiguratur."
+  },
+  "mystery-luminous-5": {
+    "title": "Quintum Mysterium Luminosum — Eucharistiae Institutio",
+    "text": "Christus Corpus et Sanguinem suum in Sacramento Novi Foederis tradit."
   }
 }

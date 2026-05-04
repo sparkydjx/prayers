@@ -55,6 +55,66 @@
     "title": "Fifth Joyful Mystery — The Finding in the Temple",
     "text": "The child Jesus is found in the Temple, sitting among the teachers."
   },
+  "mystery-sorrowful-1": {
+    "title": "First Sorrowful Mystery — The Agony in the Garden",
+    "text": "Jesus prays in Gethsemane; His soul is sorrowful even unto death."
+  },
+  "mystery-sorrowful-2": {
+    "title": "Second Sorrowful Mystery — The Scourging at the Pillar",
+    "text": "Jesus is bound to the pillar and scourged."
+  },
+  "mystery-sorrowful-3": {
+    "title": "Third Sorrowful Mystery — The Crowning with Thorns",
+    "text": "Jesus is crowned with thorns and mocked as King of the Jews."
+  },
+  "mystery-sorrowful-4": {
+    "title": "Fourth Sorrowful Mystery — The Carrying of the Cross",
+    "text": "Jesus carries His cross to Calvary, falling under its weight."
+  },
+  "mystery-sorrowful-5": {
+    "title": "Fifth Sorrowful Mystery — The Crucifixion",
+    "text": "Jesus is nailed to the cross and dies for our salvation."
+  },
+  "mystery-glorious-1": {
+    "title": "First Glorious Mystery — The Resurrection",
+    "text": "Christ rises from the dead on the third day, victorious over sin and death."
+  },
+  "mystery-glorious-2": {
+    "title": "Second Glorious Mystery — The Ascension",
+    "text": "Jesus ascends into heaven forty days after His Resurrection."
+  },
+  "mystery-glorious-3": {
+    "title": "Third Glorious Mystery — The Descent of the Holy Spirit",
+    "text": "The Holy Spirit descends upon Mary and the Apostles at Pentecost."
+  },
+  "mystery-glorious-4": {
+    "title": "Fourth Glorious Mystery — The Assumption",
+    "text": "The Blessed Virgin Mary is taken body and soul into heavenly glory."
+  },
+  "mystery-glorious-5": {
+    "title": "Fifth Glorious Mystery — The Coronation",
+    "text": "Mary is crowned Queen of Heaven and of all creation."
+  },
+  "mystery-luminous-1": {
+    "title": "First Luminous Mystery — The Baptism of the Lord",
+    "text": "Christ is baptized by John in the Jordan; the Father’s voice proclaims Him beloved Son."
+  },
+  "mystery-luminous-2": {
+    "title": "Second Luminous Mystery — The Wedding at Cana",
+    "text": "Jesus reveals His glory, turning water into wine at Mary’s request."
+  },
+  "mystery-luminous-3": {
+    "title": "Third Luminous Mystery — The Proclamation of the Kingdom",
+    "text": "Jesus calls all to repentance and faith in the Gospel of the Kingdom."
+  },
+  "mystery-luminous-4": {
+    "title": "Fourth Luminous Mystery — The Transfiguration",
+    "text": "Jesus is transfigured in glory before Peter, James, and John."
+  },
+  "mystery-luminous-5": {
+    "title": "Fifth Luminous Mystery — The Institution of the Eucharist",
+    "text": "Christ offers His Body and Blood in the Sacrament of the New Covenant."
+  },
   "angelus-opening": {
     "title": "Angelus — opening",
     "text": "The Angel of the Lord declared unto Mary."

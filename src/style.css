@@ -95,6 +95,25 @@ code {
   margin-top: 1.25rem;
 }
 
+.actions--rosary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+@media (max-width: 28rem) {
+  .actions--rosary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-rosary {
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.75rem;
+}
+
 .btn {
   font: inherit;
   cursor: pointer;

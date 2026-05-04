@@ -1,0 +1,11 @@
+{
+  "id": "rosary-luminous",
+  "title": "Holy Rosary — Luminous Mysteries",
+  "mysteryGroupId": "luminous",
+  "openingPrayerIds": ["sign-of-the-cross", "apostles-creed"],
+  "closingPrayerIds": [
+    "hail-holy-queen",
+    "final-rosary-prayer",
+    "sign-of-the-cross"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "glorious",
+  "title": "Glorious Mysteries",
+  "mysteries": [
+    {
+      "id": "glorious-1",
+      "announcementPrayerId": "mystery-glorious-1",
+      "decadePrayerIds": [
+        "our-father",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "glory-be",
+        "fatima-decade-prayer"
+      ]
+    },
+    {
+      "id": "glorious-2",
+      "announcementPrayerId": "mystery-glorious-2",
+      "decadePrayerIds": [
+        "our-father",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "glory-be",
+        "fatima-decade-prayer"
+      ]
+    },
+    {
+      "id": "glorious-3",
+      "announcementPrayerId": "mystery-glorious-3",
+      "decadePrayerIds": [
+        "our-father",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "glory-be",
+        "fatima-decade-prayer"
+      ]
+    },
+    {
+      "id": "glorious-4",
+      "announcementPrayerId": "mystery-glorious-4",
+      "decadePrayerIds": [
+        "our-father",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "glory-be",
+        "fatima-decade-prayer"
+      ]
+    },
+    {
+      "id": "glorious-5",
+      "announcementPrayerId": "mystery-glorious-5",
+      "decadePrayerIds": [
+        "our-father",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "hail-mary",
+        "glory-be",
+        "fatima-decade-prayer"
+      ]
+    }
+  ]
+}

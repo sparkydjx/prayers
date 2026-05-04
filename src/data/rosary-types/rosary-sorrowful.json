@@ -1,0 +1,11 @@
+{
+  "id": "rosary-sorrowful",
+  "title": "Holy Rosary — Sorrowful Mysteries",
+  "mysteryGroupId": "sorrowful",
+  "openingPrayerIds": ["sign-of-the-cross", "apostles-creed"],
+  "closingPrayerIds": [
+    "hail-holy-queen",
+    "final-rosary-prayer",
+    "sign-of-the-cross"
+  ]
+}
