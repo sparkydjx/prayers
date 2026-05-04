@@ -34,5 +34,25 @@
   "fatima-prayer-2": {
     "title": "Fatima prayer #2",
     "text": "Deus meus, credo, adoro, spero, et amo te. Peto veniam tibi pro iis qui non credunt, non adorant, non sperant, et non amant te."
+  },
+  "mystery-joyful-1": {
+    "title": "Primum Mysterium Gaudiosum — Annuntiatio",
+    "text": "Angelus Gabriel nuntiat Mariae se concepturam et parituram Filium Dei."
+  },
+  "mystery-joyful-2": {
+    "title": "Secundum Mysterium Gaudiosum — Visitatio",
+    "text": "Maria visitat Elisabeth; Ioannes Baptista in utero matris exsilit."
+  },
+  "mystery-joyful-3": {
+    "title": "Tertium Mysterium Gaudiosum — Nativitas",
+    "text": "Iesus nascitur Bethlehem."
+  },
+  "mystery-joyful-4": {
+    "title": "Quartum Mysterium Gaudiosum — Praesentatio",
+    "text": "Maria et Ioseph infantem Iesum in Templo praesentant."
+  },
+  "mystery-joyful-5": {
+    "title": "Quintum Mysterium Gaudiosum — Inventio in Templo",
+    "text": "Puer Iesus in Templo inter doctores sedens invenitur."
   }
 }

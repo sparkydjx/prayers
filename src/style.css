@@ -86,3 +86,227 @@ code {
   padding: 0.1rem 0.35rem;
   border-radius: 0.35rem;
 }
+
+.hidden {
+  display: none !important;
+}
+
+.actions {
+  margin-top: 1.25rem;
+}
+
+.btn {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 0.65rem;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #1f3a8a;
+  color: #fff;
+  border-color: #1e3a8a;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.btn-icon:hover {
+  color: #111827;
+  background: #f3f4f6;
+}
+
+.btn-icon:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+/* Rosary overlay */
+.rosary-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: stretch;
+}
+
+.rosary-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.rosary-sheet__panel {
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  width: min(100% - 1.5rem, 52rem);
+  max-height: min(92vh, 900px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.rosary-sheet__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.75rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.rosary-sheet__title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #111827;
+  text-align: left;
+  line-height: 1.35;
+}
+
+.lang-fieldset {
+  margin: 0;
+  padding: 0.85rem 1.25rem;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.lang-fieldset__legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.lang-segment {
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lang-segment__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+  user-select: none;
+}
+
+.lang-segment__item:has(input:checked) {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1e3a8a;
+}
+
+.lang-segment__item input {
+  margin: 0;
+  accent-color: #1f3a8a;
+}
+
+.rosary-steps {
+  overflow-y: auto;
+  padding: 1rem 1.25rem 1.5rem;
+  text-align: left;
+  flex: 1;
+  min-height: 0;
+}
+
+.rosary-step {
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rosary-step:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.rosary-step h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.rosary-step__text {
+  margin: 0;
+  white-space: pre-wrap;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.rosary-step__both {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .rosary-step__both {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rosary-step__col {
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.rosary-step__col--en {
+  border-left: 3px solid #1f3a8a;
+}
+
+.rosary-step__col--la {
+  border-left: 3px solid #64748b;
+}
+
+.rosary-step__col h3 {
+  font-size: 0.88rem;
+}

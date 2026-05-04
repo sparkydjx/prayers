@@ -93,3 +93,28 @@ export function expandRosaryType(rt) {
     return { id, ...p }
   })
 }
+
+/**
+ * Latin prayer text when present in prayers-latin.json; otherwise English (same id).
+ * @param {string} prayerId
+ * @returns {Prayer}
+ */
+export function getRosaryPrayerLatin(prayerId) {
+  const en = getPrayer(prayerId)
+  if (!en) throw new Error(`Unknown prayer id: ${prayerId}`)
+  const la = prayersLatin[prayerId]
+  return la ?? en
+}
+
+/**
+ * Each rosary step with English and Latin (Latin falls back to English if missing).
+ * @param {RosaryType} rt
+ * @returns {{ id: string, english: Prayer, latin: Prayer }[]}
+ */
+export function expandRosaryTypeBilingual(rt) {
+  return rosaryTypeToPrayerIds(rt).map((id) => {
+    const english = getPrayer(id)
+    if (!english) throw new Error(`Unknown prayer id: ${id} (rosary ${rt.id})`)
+    return { id, english, latin: getRosaryPrayerLatin(id) }
+  })
+}

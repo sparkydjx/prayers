@@ -1,0 +1,10 @@
+# Coqui TTS (idiap fork): https://pypi.org/project/coqui-tts/
+# Requires Python 3.10–3.14. Use a venv in this repo, e.g.:
+#   py -3.12 -m venv .venv
+#   .venv\Scripts\activate
+#   pip install -r requirements-tts.txt
+#
+# The [cpu] extra pulls torch + torchaudio for CPU inference. For NVIDIA GPU,
+# install the matching CUDA wheels from https://pytorch.org/get-started/locally/
+# then: pip install coqui-tts>=0.27.4
+coqui-tts[cpu]>=0.27.4,<0.28
