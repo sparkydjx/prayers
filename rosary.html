@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+</head>
+<body>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosary</title>
+<style>
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .rosary {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+    padding-bottom: 28px;
+  }
+  .rosary::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 178px;
+    left: 50%;
+    z-index: 0;
+    width: 6px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='10' viewBox='0 0 6 10'%3E%3Cdefs%3E%3ClinearGradient id='linkGold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fff7bd'/%3E%3Cstop offset='35%25' stop-color='%23e3bd48'/%3E%3Cstop offset='68%25' stop-color='%23956815'/%3E%3Cstop offset='100%25' stop-color='%23ffe88b'/%3E%3C/linearGradient%3E%3Cfilter id='linkShadow' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0.45' stdDeviation='0.3' flood-color='%23000' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='3' cy='2.9' rx='2' ry='2.6' fill='none' stroke='%23523305' stroke-width='1.6' opacity='0.38'/%3E%3Cellipse cx='3' cy='2.9' rx='2' ry='2.6' fill='none' stroke='url(%23linkGold)' stroke-width='1.05' filter='url(%23linkShadow)'/%3E%3Cellipse cx='3' cy='7.2' rx='2' ry='2.6' fill='none' stroke='%23523305' stroke-width='1.6' opacity='0.38' transform='rotate(90 3 7.2)'/%3E%3Cellipse cx='3' cy='7.2' rx='2' ry='2.6' fill='none' stroke='url(%23linkGold)' stroke-width='1.05' filter='url(%23linkShadow)' transform='rotate(90 3 7.2)'/%3E%3Cpath d='M2.1 1.2 C2.8 0.8 3.7 0.9 4.2 1.5' fill='none' stroke='%23fff5b7' stroke-width='0.35' stroke-linecap='round' opacity='0.95'/%3E%3Cpath d='M1.7 6.4 C2.4 5.9 3.6 5.9 4.3 6.4' fill='none' stroke='%23fff5b7' stroke-width='0.35' stroke-linecap='round' opacity='0.95'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
+    background-size: 6px 10px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  }
+  .rosary > * {
+    position: relative;
+    z-index: 2;
+  }
+  .rosary svg line {
+    display: none;
+  }
+  .rosary circle[fill^="url(#rosary-bead-"] {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.1);
+  }
+  .label {
+    display: none;
+    color: #d4af37;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin: 2px 0;
+    text-align: center;
+    opacity: 0.85;
+    max-width: 16em;
+  }
+  .mary-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 4px;
+  }
+  .mary-container-main {
+    margin: 6px 0;
+    position: relative;
+    top: -38px;
+  }
+  .rosary-above-main-mary {
+    position: relative;
+    top: -46px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .crucifix-image {
+    width: 122px;
+    height: 156px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
+  }
+  .mary-image {
+    width: 72px;
+    height: 92px;
+    object-fit: cover;
+    object-position: center;
+    box-sizing: border-box;
+    padding: 4px;
+    border: 3px solid #d4af37;
+    border-radius: 50%;
+    background: #1a1a2e;
+    box-shadow: 0 0 0 1px rgba(255, 236, 170, 0.45), 0 0 16px rgba(212, 175, 55, 0.35);
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+  }
+</style>
+</head>
+<body>
+<div class="rosary">
+
+<!-- Shared fills for every bead along the chain (global ids) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden">
+  <defs>
+    <pattern id="rosary-bead-amethyst" patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <image href="assets/amethyst-gemstone-bead.png" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <radialGradient id="rosary-bead-gold" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff0a0"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#6b4a08"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- AI-generated Celtic crucifix -->
+<img class="crucifix-image" src="assets/celtic-crucifix.png" alt="Realistic Celtic crucifix glorifying Jesus Christ">
+<svg width="86" height="132" viewBox="0 0 86 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+  <defs>
+    <linearGradient id="celt-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2e6b8"/>
+      <stop offset="28%" stop-color="#caa84a"/>
+      <stop offset="55%" stop-color="#8a6218"/>
+      <stop offset="100%" stop-color="#4a2e06"/>
+    </linearGradient>
+    <linearGradient id="celt-metal-side" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3d2208"/>
+      <stop offset="22%" stop-color="#a67c28"/>
+      <stop offset="48%" stop-color="#e8d28a"/>
+      <stop offset="78%" stop-color="#9e6f1e"/>
+      <stop offset="100%" stop-color="#2f1804"/>
+    </linearGradient>
+    <radialGradient id="celt-ring-grad" cx="48%" cy="48%" r="58%">
+      <stop offset="0%" stop-color="#fff2c4"/>
+      <stop offset="40%" stop-color="#d4a83a"/>
+      <stop offset="100%" stop-color="#5c3a08"/>
+    </radialGradient>
+    <linearGradient id="celt-ring-edge" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#241005"/>
+      <stop offset="50%" stop-color="#f8e6a0"/>
+      <stop offset="100%" stop-color="#241005"/>
+    </linearGradient>
+    <linearGradient id="celt-corpus-bronze" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#c9a068"/>
+      <stop offset="100%" stop-color="#6b4828"/>
+    </linearGradient>
+    <filter id="celt-soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1.8" stdDeviation="1.8" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="43" cy="124" rx="20" ry="3.8" fill="#000" opacity="0.28"/>
+
+  <!-- plinth (meets tapered shaft foot) -->
+  <path d="M28 126 L28 114 L58 114 L58 126 Z" fill="url(#celt-metal)" opacity="0.92"/>
+  <path d="M27.5 114 L58.5 114" stroke="#2a1404" stroke-width="1" opacity="0.65"/>
+  <path d="M30 126 L56 126" stroke="#efe0aa" stroke-width="0.6" opacity="0.35"/>
+
+  <!-- tapered vertical shaft -->
+  <path filter="url(#celt-soft-shadow)" d="
+    M43 14
+    C37 14 34.5 16.5 33.8 21
+    L32.2 106
+    C32 110.5 34.5 114 38.8 114
+    L47.2 114
+    C51.5 114 54 110.5 53.8 106
+    L52.2 21
+    C51.5 16.5 49 14 43 14
+    Z
+  " fill="url(#celt-metal)"/>
+  <path d="
+    M33.8 46 L52.2 46
+    L52 106 C51.9 109.8 49.8 112.8 46.8 113.8
+    L39.2 113.8 C36.2 112.8 34.1 109.8 34 106
+    Z
+  " fill="url(#celt-metal-side)" opacity="0.42"/>
+
+  <!-- horizontal arm + flared “high cross” terminals -->
+  <g filter="url(#celt-soft-shadow)">
+    <rect x="21" y="53.8" width="43" height="18.8" rx="2.8" fill="url(#celt-metal)"/>
+    <path d="M21 53.8 L9.8 61.7 L21 72.6 L21 53.8 Z" fill="url(#celt-metal)"/>
+    <path d="M64 53.8 L76.2 61.7 L64 72.6 L64 53.8 Z" fill="url(#celt-metal)"/>
+  </g>
+  <path d="M21.8 71.9 H64.2 L63.8 71.1 H22.3 Z" fill="url(#celt-metal-side)" opacity="0.35"/>
+
+  <!-- ring (nimbus) around the crossing -->
+  <circle cx="43" cy="57.4" r="19.8" fill="none" stroke="url(#celt-ring-grad)" stroke-width="7.2"/>
+  <circle cx="43" cy="57.4" r="19.8" fill="none" stroke="url(#celt-ring-edge)" stroke-width="1.05" opacity="0.85"/>
+  <circle cx="43" cy="57.4" r="16.1" fill="none" stroke="#1a0c02" stroke-width="0.5" opacity="0.55"/>
+
+  <!-- raised boss / cap -->
+  <ellipse cx="43" cy="15.5" rx="5.2" ry="4.2" fill="url(#celt-metal)"/>
+  <ellipse cx="43" cy="14.8" rx="3" ry="2.2" fill="#f5e6b0" opacity="0.45"/>
+
+  <!-- knot scrolls (subtle engraved lines) -->
+  <g fill="none" stroke="#2a1404" stroke-width="0.45" stroke-linecap="round" opacity="0.55">
+    <path d="M39 76 Q36 82 43 87 Q50 82 47 76"/>
+    <path d="M39 93 Q43 96 47 93"/>
+    <path d="M23 61 Q28 63 31 61 Q28 58 26 61"/>
+    <path d="M63 61 Q58 63 55 61 Q58 58 60 61"/>
+  </g>
+
+  <!-- bevel rims -->
+  <path d="M34.2 42 L51.8 42" stroke="#fae8b0" stroke-width="0.55" opacity="0.5"/>
+  <path d="M34.8 106 L52.8 106" stroke="#241005" stroke-width="0.6" opacity="0.35"/>
+
+  <!-- Corpus (bronzed, raised relief) -->
+  <g>
+    <ellipse cx="43" cy="50.2" rx="6.2" ry="6.5" fill="url(#celt-corpus-bronze)"/>
+    <path d="M39.2 57 L39.4 69.6 C39.5 70.9 40.5 71.8 42 71.8 L44 71.8 C45.5 71.8 46.6 70.9 46.6 69.6 L46.9 57 Z" fill="url(#celt-corpus-bronze)"/>
+    <path d="M43 58.8 L31.8 66" stroke="url(#celt-corpus-bronze)" stroke-width="3.7" stroke-linecap="round"/>
+    <path d="M43 58.8 L54.2 66" stroke="url(#celt-corpus-bronze)" stroke-width="3.7" stroke-linecap="round"/>
+    <path d="M40 70.8 Q43 75.8 46 70.8" stroke="url(#celt-corpus-bronze)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  </g>
+  <path d="M37.8 46 Q43 43.8 48.2 46" stroke="#4a2610" stroke-width="0.5" fill="none" opacity="0.45"/>
+</svg>
+<div class="label">Crucifix</div>
+
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×3</div>
+<svg width="44" height="156" viewBox="0 0 44 156" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="156" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<div class="mary-container mary-container-main">
+<img class="mary-image" src="assets/blessed-virgin-mary.png" alt="Realistic sacred portrait of the Blessed Virgin Mary, mother of Jesus">
+<div class="label">Blessed Virgin Mary</div>
+</div>
+
+<!-- Opening + five decades: static SVG only (no script) -->
+<div class="rosary-above-main-mary">
+<svg width="40" height="8" viewBox="0 0 40 8" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="8" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Our Father ×1</div>
+<svg width="56" height="38" viewBox="0 0 56 38" xmlns="http://www.w3.org/2000/svg">
+  <line x1="28" y1="0" x2="28" y2="38" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<!-- Decade 1 -->
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×10 — First meditation</div>
+<svg width="44" height="322" viewBox="0 0 44 322" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="162" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="170" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="178" x2="22" y2="194" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="202" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="210" x2="22" y2="226" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="234" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="242" x2="22" y2="258" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="266" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="274" x2="22" y2="290" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="298" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="306" x2="22" y2="322" stroke="#d4af37" stroke-width="2"/>
+</svg>
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Our Father ×1</div>
+<svg width="56" height="38" viewBox="0 0 56 38" xmlns="http://www.w3.org/2000/svg">
+  <line x1="28" y1="0" x2="28" y2="8" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="28" cy="14" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="28" y1="24" x2="28" y2="38" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<!-- Decade 2 -->
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×10 — Second meditation</div>
+<svg width="44" height="322" viewBox="0 0 44 322" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="162" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="170" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="178" x2="22" y2="194" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="202" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="210" x2="22" y2="226" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="234" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="242" x2="22" y2="258" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="266" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="274" x2="22" y2="290" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="298" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="306" x2="22" y2="322" stroke="#d4af37" stroke-width="2"/>
+</svg>
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Our Father ×1</div>
+<svg width="56" height="38" viewBox="0 0 56 38" xmlns="http://www.w3.org/2000/svg">
+  <line x1="28" y1="0" x2="28" y2="8" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="28" cy="14" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="28" y1="24" x2="28" y2="38" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<!-- Decade 3 -->
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×10 — Third meditation</div>
+<svg width="44" height="322" viewBox="0 0 44 322" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="162" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="170" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="178" x2="22" y2="194" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="202" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="210" x2="22" y2="226" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="234" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="242" x2="22" y2="258" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="266" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="274" x2="22" y2="290" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="298" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="306" x2="22" y2="322" stroke="#d4af37" stroke-width="2"/>
+</svg>
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Our Father ×1</div>
+<svg width="56" height="38" viewBox="0 0 56 38" xmlns="http://www.w3.org/2000/svg">
+  <line x1="28" y1="0" x2="28" y2="8" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="28" cy="14" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="28" y1="24" x2="28" y2="38" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<!-- Decade 4 -->
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×10 — Fourth meditation</div>
+<svg width="44" height="322" viewBox="0 0 44 322" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="162" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="170" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="178" x2="22" y2="194" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="202" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="210" x2="22" y2="226" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="234" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="242" x2="22" y2="258" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="266" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="274" x2="22" y2="290" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="298" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="306" x2="22" y2="322" stroke="#d4af37" stroke-width="2"/>
+</svg>
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Our Father ×1</div>
+<svg width="56" height="38" viewBox="0 0 56 38" xmlns="http://www.w3.org/2000/svg">
+  <line x1="28" y1="0" x2="28" y2="8" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="28" cy="14" r="8" fill="url(#rosary-bead-gold)" stroke="#a07820" stroke-width="1.2"/>
+  <line x1="28" y1="24" x2="28" y2="38" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<!-- Decade 5 -->
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+<div class="label">Hail Mary ×10 — Fifth meditation</div>
+<svg width="44" height="322" viewBox="0 0 44 322" xmlns="http://www.w3.org/2000/svg">
+  <line x1="22" y1="0" x2="22" y2="2" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="10" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="18" x2="22" y2="34" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="42" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="50" x2="22" y2="66" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="74" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="82" x2="22" y2="98" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="106" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="114" x2="22" y2="130" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="138" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="146" x2="22" y2="162" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="170" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="178" x2="22" y2="194" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="202" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="210" x2="22" y2="226" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="234" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="242" x2="22" y2="258" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="266" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="274" x2="22" y2="290" stroke="#d4af37" stroke-width="2"/>
+  <circle cx="22" cy="298" r="8" fill="url(#rosary-bead-amethyst)" stroke="#9966cc" stroke-width="1.2"/>
+  <line x1="22" y1="306" x2="22" y2="322" stroke="#d4af37" stroke-width="2"/>
+</svg>
+
+<svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="0" x2="20" y2="14" stroke="#d4af37" stroke-width="2"/></svg>
+
+</div>
+
+<div class="mary-container">
+<img class="mary-image" src="assets/blessed-virgin-mary.png" alt="Realistic sacred portrait of the Blessed Virgin Mary, mother of Jesus">
+<div class="label">Blessed Virgin Mary</div>
+</div>
+
+</div>
+</body>
+</html>

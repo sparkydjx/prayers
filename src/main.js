@@ -6,7 +6,7 @@ import {
   mysteryGroups,
   visualPlaceLabel
 } from './data/index.js'
-import { createRosarySvg, highlightRosaryVisual } from './rosary-svg.js'
+import { mountRosaryMap, highlightRosaryVisual } from './rosary-map.js'
 
 registerSW({ immediate: true })
 
@@ -180,8 +180,8 @@ const rosaryPrev = document.getElementById('rosary-prev')
 const rosaryNext = document.getElementById('rosary-next')
 const rosaryDialogTitle = document.getElementById('rosary-dialog-title')
 
-/** @type {SVGSVGElement | null} */
-let rosarySvg = null
+/** @type {HTMLElement | null} */
+let rosaryMap = null
 
 /** @type {NodeListOf<HTMLInputElement>} */
 const langRadios = document.querySelectorAll('input[name="rosary-lang"]')
@@ -226,8 +226,8 @@ function renderStep() {
     const last = currentIndex >= activeRosarySteps.length - 1
     rosaryNext.textContent = last ? 'Finish' : 'Next'
   }
-  if (rosarySvg) {
-    highlightRosaryVisual(rosarySvg, step.visualId, pastVisualIds())
+  if (rosaryMap) {
+    highlightRosaryVisual(rosaryMap, step.visualId, pastVisualIds())
   }
   saveStep()
 }
@@ -251,8 +251,7 @@ function openRosary(rosaryTypeId, opener) {
   currentIndex = loadStep(rosaryTypeId, activeRosarySteps.length)
   if (rosaryDialogTitle) rosaryDialogTitle.textContent = rt.title
   rosaryStage.replaceChildren()
-  rosarySvg = createRosarySvg()
-  rosaryStage.append(rosarySvg)
+  rosaryMap = mountRosaryMap(rosaryStage)
   setVisible(rosarySheet, true)
   renderStep()
   rosaryClose?.focus()

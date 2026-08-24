@@ -293,95 +293,44 @@ code {
   flex: 1 1 42%;
   min-height: 12rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 0.25rem 0.5rem 0;
-  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  padding: 0.25rem 0.5rem 0.5rem;
+  overflow: auto;
+  background: #1a1a2e;
 }
 
-.rosary-svg {
-  width: auto;
-  height: 100%;
-  max-width: 100%;
-  overflow: visible;
-  user-select: none;
+.rosary-stage .rosary {
+  zoom: 0.78;
 }
 
-.rosary-svg [data-visual] {
+.rosary-stage [data-visual] {
   cursor: pointer;
 }
 
-.rosary-cord {
-  fill: none;
-  stroke: #78716c;
-  stroke-width: 2.2;
-  pointer-events: none;
+.rosary-stage [data-visual].is-past {
+  opacity: 0.45;
 }
 
-.rosary-svg .bead-hit {
-  fill: transparent;
-  stroke: none;
-  cursor: pointer;
-}
-
-.rosary-svg .gap-hit {
-  fill: none;
-  stroke: transparent;
-  stroke-width: 14;
-  pointer-events: stroke;
-  cursor: pointer;
-}
-
-.rosary-svg .gap-face {
-  fill: none;
-  stroke: #a8a29e;
-  stroke-width: 3.2;
-  stroke-linecap: round;
-  pointer-events: none;
-}
-
-.rosary-svg .gap-spoke .gap-face {
-  stroke-dasharray: 5 4;
-  stroke-width: 2.4;
-}
-
-.rosary-svg .bead-face {
-  stroke: rgba(255, 255, 255, 0.35);
-  stroke-width: 1;
-  pointer-events: none;
-}
-
-.rosary-svg .is-past .bead-face {
-  opacity: 0.55;
-}
-
-.rosary-svg .is-active {
-  filter: drop-shadow(0 0 7px rgba(251, 191, 36, 0.95));
-}
-
-.rosary-svg .is-active .bead-face {
-  stroke: #fffbeb;
-  stroke-width: 2.4;
+.rosary-stage [data-visual].is-active {
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.95));
   opacity: 1;
 }
 
-.rosary-svg .is-active .gap-face {
+.rosary-stage circle[data-visual].is-active {
+  stroke: #fff3a0;
+  stroke-width: 2.8;
+}
+
+.rosary-stage svg line[data-visual].is-active {
+  display: inline;
   stroke: #fbbf24;
-  stroke-width: 6;
-  stroke-dasharray: none;
+  stroke-width: 4;
 }
 
-.rosary-svg .is-active.mary-medal circle:nth-of-type(2) {
-  stroke: #fde68a;
-  stroke-width: 2.5;
-}
-
-.rosary-svg [data-visual]:focus {
-  outline: none;
-}
-
-.rosary-svg [data-visual]:focus-visible {
-  outline: 2px solid #1d4ed8;
+.rosary-stage .mary-container.is-active .mary-image,
+.rosary-stage .crucifix-image.is-active {
+  outline: 3px solid #fbbf24;
   outline-offset: 3px;
 }
 
