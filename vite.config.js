@@ -13,9 +13,9 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,mp3,webm}']
       },
       manifest: {
-        name: 'Prayers',
-        short_name: 'Prayers',
-        description: 'Catholic prayers, devotions, and rosary — installable offline PWA',
+        name: 'Holy Rosary',
+        short_name: 'Rosary',
+        description: 'Pray the rosary with beads and prayers in step — installable offline PWA',
         theme_color: '#1f3a8a',
         background_color: '#ffffff',
         display: 'standalone',

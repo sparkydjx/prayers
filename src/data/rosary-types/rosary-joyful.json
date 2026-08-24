@@ -2,7 +2,16 @@
   "id": "rosary-joyful",
   "title": "Holy Rosary — Joyful Mysteries",
   "mysteryGroupId": "joyful",
-  "openingPrayerIds": ["sign-of-the-cross", "apostles-creed"],
+  "openingPrayerIds": [
+    "sign-of-the-cross",
+    "apostles-creed",
+    "our-father",
+    "hail-mary",
+    "hail-mary",
+    "hail-mary",
+    "glory-be",
+    "fatima-decade-prayer"
+  ],
   "closingPrayerIds": [
     "hail-holy-queen",
     "final-rosary-prayer",

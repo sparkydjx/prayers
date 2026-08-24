@@ -107,6 +107,10 @@ export function getRosaryPrayerLatin(prayerId) {
 }
 
 /**
+ * @typedef {{ visualId: string, id: string, english: Prayer, latin: Prayer }} RosaryLaidOutStep
+ */
+
+/**
  * Each rosary step with English and Latin (Latin falls back to English if missing).
  * @param {RosaryType} rt
  * @returns {{ id: string, english: Prayer, latin: Prayer }[]}
@@ -117,4 +121,108 @@ export function expandRosaryTypeBilingual(rt) {
     if (!english) throw new Error(`Unknown prayer id: ${id} (rosary ${rt.id})`)
     return { id, english, latin: getRosaryPrayerLatin(id) }
   })
+}
+
+/**
+ * Same prayer order as expandRosaryTypeBilingual, with a visualId for the rosary image:
+ * crucifix, gold/purple beads, chain gaps, and the image of Mary.
+ * @param {RosaryType} rt
+ * @returns {RosaryLaidOutStep[]}
+ */
+export function expandRosaryTypeLaidOut(rt) {
+  const group = mysteryGroups[rt.mysteryGroupId]
+  if (!group) {
+    throw new Error(`Unknown mystery group: ${rt.mysteryGroupId} (${rt.id})`)
+  }
+  if (group.mysteries.length !== 5) {
+    throw new Error(`Rosary ${rt.id} must have 5 mysteries`)
+  }
+
+  const opening = rt.openingPrayerIds
+  if (opening.length !== 8) {
+    throw new Error(
+      `Rosary ${rt.id} opening must be 8 prayers (crucifix through Fatima)`
+    )
+  }
+
+  /** @type {RosaryLaidOutStep[]} */
+  const steps = []
+
+  /**
+   * @param {string} visualId
+   * @param {string} prayerId
+   */
+  const push = (visualId, prayerId) => {
+    const english = getPrayer(prayerId)
+    if (!english) throw new Error(`Unknown prayer id: ${prayerId} (${rt.id})`)
+    steps.push({
+      visualId,
+      id: prayerId,
+      english,
+      latin: getRosaryPrayerLatin(prayerId)
+    })
+  }
+
+  push('crucifix', opening[0])
+  push('crucifix', opening[1])
+  push('gold-opening', opening[2])
+  push('purple-opening-1', opening[3])
+  push('purple-opening-2', opening[4])
+  push('purple-opening-3', opening[5])
+  push('gap-opening', opening[6])
+  push('gap-opening', opening[7])
+
+  group.mysteries.forEach((m, di) => {
+    const d = di + 1
+    const ids = m.decadePrayerIds
+    if (ids.length !== 13) {
+      throw new Error(`Mystery ${m.id} decade must have 13 prayers`)
+    }
+    push(`gold-mystery-${d}`, m.announcementPrayerId)
+    push(`gap-of-${d}`, ids[0])
+    for (let i = 0; i < 10; i++) {
+      push(`purple-d${d}-${i + 1}`, ids[1 + i])
+    }
+    const chainVisual = d < 5 ? `gap-gb-${d}` : 'mary'
+    push(chainVisual, ids[11])
+    push(chainVisual, ids[12])
+  })
+
+  for (const id of rt.closingPrayerIds) {
+    push('mary', id)
+  }
+
+  return steps
+}
+
+/**
+ * Where on the rosary image the current step is prayed.
+ * @param {string} visualId
+ */
+export function visualPlaceLabel(visualId) {
+  if (visualId === 'crucifix') return 'Crucifix'
+  if (visualId === 'gold-opening') return 'First gold bead'
+  const openingPurple = /^purple-opening-(\d)$/.exec(visualId)
+  if (openingPurple) {
+    return `Purple bead (${openingPurple[1]} of 3)`
+  }
+  if (visualId === 'gap-opening') {
+    return 'Between the third purple bead and the gold bead'
+  }
+  if (/^gold-mystery-\d$/.test(visualId)) return 'Gold bead'
+  if (visualId === 'gap-of-1') {
+    return 'Between the gold bead and the image of Mary'
+  }
+  if (/^gap-of-\d$/.test(visualId)) {
+    return 'Between the gold bead and the purple beads'
+  }
+  const decadePurple = /^purple-d(\d)-(\d+)$/.exec(visualId)
+  if (decadePurple) {
+    return `Purple bead (${decadePurple[2]} of 10)`
+  }
+  if (/^gap-gb-\d$/.test(visualId)) {
+    return 'Between the last purple bead and the gold bead'
+  }
+  if (visualId === 'mary') return 'Image of Mary'
+  return ''
 }

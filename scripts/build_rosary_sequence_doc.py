@@ -43,31 +43,11 @@ def main():
         "in order. Where the Hail Mary appears, the note indicates how many times to repeat "
         "that same prayer — it is not a different prayer each time."
     )
-    add_note(
-        doc,
-        "The opening includes the Our Father and three Hail Marys after the Creed, as is usual "
-        "when praying a full rosary. The prayers PWA currently starts directly with the first "
-        "mystery after the Creed; add this block to the app data if you want an exact match.",
-    )
 
-    # Opening (traditional full rosary: after Creed, Our Father + 3 Hail Marys + Glory)
+    # Opening (crucifix through Fatima, then decades)
     add_heading(doc, "Opening", level=1)
     for pid in ROSARY["openingPrayerIds"]:
         add_prayer_block(doc, pid)
-
-    add_heading(doc, "Our Father (opening intentions)", level=2)
-    doc.add_paragraph(PRAYERS["our-father"]["text"])
-
-    add_heading(doc, "Hail Mary", level=2)
-    doc.add_paragraph(PRAYERS["hail-mary"]["text"])
-    add_note(
-        doc,
-        "Repeat 3×: say this same Hail Mary three times (traditionally for an increase in "
-        "faith, hope, and charity). This is one prayer repeated three times, not three "
-        "different prayers.",
-    )
-
-    add_prayer_block(doc, "glory-be")
 
     # Five decades
     add_heading(doc, "Five decades", level=1)

@@ -12,7 +12,6 @@ const read = (rel) =>
   JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'))
 
 const prayers = read('src/data/prayers.json')
-const rosary = read('src/data/rosary-types/rosary-joyful.json')
 const joyfulGroup = read('src/data/mystery-groups/joyful.json')
 
 const DECADE_TEMPLATE = [
@@ -130,6 +129,7 @@ function printPrayer(id, note) {
 
 function main() {
   const { date, name, key } = todaySchedule()
+  const rosary = read(`src/data/rosary-types/rosary-${key}.json`)
   console.log('='.repeat(72))
   console.log(
     `Holy Rosary — ${name}\n${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`
@@ -145,11 +145,6 @@ function main() {
 
   console.log('\n## Opening')
   for (const id of rosary.openingPrayerIds) printPrayer(id)
-
-  console.log('\n## After the Creed (traditional)')
-  printPrayer('our-father')
-  printPrayer('hail-mary', '(repeat this same prayer 3×)')
-  printPrayer('glory-be')
 
   mysteries.forEach((m, idx) => {
     console.log(`\n## Decade ${idx + 1} of 5 — ${m.title}`)
