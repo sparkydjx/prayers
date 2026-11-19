@@ -15,7 +15,8 @@ export default defineConfig({
       manifest: {
         name: 'Holy Rosary',
         short_name: 'Rosary',
-        description: 'Pray the rosary with beads and prayers in step — installable offline PWA',
+        description:
+          'Pray the rosary with beads and prayers in step — installable offline PWA',
         theme_color: '#1f3a8a',
         background_color: '#ffffff',
         display: 'standalone',

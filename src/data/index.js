@@ -30,7 +30,9 @@ export const mysteryGroups = Object.fromEntries(
 )
 
 /** @type {RosaryType[]} */
-export const rosaryTypes = Object.values(rosaryTypeModules).map((m) => m.default)
+export const rosaryTypes = Object.values(rosaryTypeModules).map(
+  (m) => m.default
+)
 
 export { prayers, prayersLatin, audioByPrayerId }
 
@@ -59,7 +61,8 @@ export function getAudioUrl(prayerId) {
 export function expandDevotion(devotion) {
   return devotion.prayerIds.map((id) => {
     const p = getPrayer(id)
-    if (!p) throw new Error(`Unknown prayer id: ${id} (devotion ${devotion.id})`)
+    if (!p)
+      throw new Error(`Unknown prayer id: ${id} (devotion ${devotion.id})`)
     return { id, ...p }
   })
 }
