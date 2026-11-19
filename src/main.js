@@ -102,13 +102,35 @@ function renderCurrentPrayer(container, mode, step) {
 
 document.querySelector('#app').innerHTML = `
   <main class="app">
-    <img src="./icon.svg" width="84" height="84" alt="" />
-    <h1>Holy Rosary</h1>
-    <p class="lede">
-      Choose a mystery set. Each prayer is paired with the crucifix, a gold bead,
-      a purple bead, the chain between beads, or the image of Mary.
-    </p>
-    <section class="actions actions--rosary" id="rosary-actions" aria-label="Rosary by mystery set"></section>
+    <section class="hero" aria-label="Holy Rosary">
+      <div class="hero__media" aria-hidden="true">
+        <img
+          class="hero__image"
+          src="./celtic-abbey-hero.jpg"
+          alt=""
+          width="1280"
+          height="720"
+        />
+        <div class="hero__veil"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__mark" aria-hidden="true">
+          <svg class="celtic-cross" viewBox="0 0 48 48" width="40" height="40" focusable="false">
+            <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path fill="currentColor" d="M22 6h4v14h12v4H26v18h-4V24H10v-4h12V6z"/>
+          </svg>
+        </p>
+        <h1 class="brand">Holy Rosary</h1>
+        <p class="lede">
+          Step through each bead as if in a thirteenth-century cloister.
+        </p>
+        <section
+          class="actions actions--rosary"
+          id="rosary-actions"
+          aria-label="Rosary by mystery set"
+        ></section>
+      </div>
+    </section>
   </main>
 
   <div id="rosary-sheet" class="rosary-sheet hidden" aria-hidden="true">
@@ -164,7 +186,7 @@ if (rosaryActions) {
     btn.className = 'btn btn-primary btn-rosary'
     btn.dataset.rosaryId = rt.id
     const label = mysteryGroups[rt.mysteryGroupId]?.title ?? rt.title
-    btn.textContent = `Rosary — ${label}`
+    btn.textContent = label
     rosaryActions.append(btn)
   }
 }
