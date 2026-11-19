@@ -222,10 +222,7 @@ export function highlightRosaryVisual(root, activeId, pastIds) {
     const stageBox = stage.getBoundingClientRect()
     const activeBox = active.getBoundingClientRect()
     const offset =
-      activeBox.top -
-      stageBox.top -
-      stageBox.height / 2 +
-      activeBox.height / 2
+      activeBox.top - stageBox.top - stageBox.height / 2 + activeBox.height / 2
     stage.scrollTop += offset
   }
 }
