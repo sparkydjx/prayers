@@ -4,9 +4,14 @@ import {
   rosaryTypes,
   expandRosaryTypeLaidOut,
   mysteryGroups,
-  visualPlaceLabel
+  getPrayer
 } from './data/index.js'
-import { mountRosaryMap, highlightRosaryVisual } from './rosary-map.js'
+import {
+  mountStellaPath,
+  highlightStellaPath,
+  voyagePlaceLabel,
+  firstIndexForStellaSection
+} from './stella-path.js'
 
 registerSW({ immediate: true })
 
@@ -102,13 +107,38 @@ function renderCurrentPrayer(container, mode, step) {
 
 document.querySelector('#app').innerHTML = `
   <main class="app">
-    <img src="./icon.svg" width="84" height="84" alt="" />
-    <h1>Holy Rosary</h1>
-    <p class="lede">
-      Choose a mystery set. Each prayer is paired with the crucifix, a gold bead,
-      a purple bead, the chain between beads, or the image of Mary.
-    </p>
-    <section class="actions actions--rosary" id="rosary-actions" aria-label="Rosary by mystery set"></section>
+    <section class="hero" aria-label="Holy Rosary">
+      <div class="hero__media" aria-hidden="true">
+        <img
+          class="hero__image"
+          src="./stella-maris-hero.jpg"
+          alt=""
+          width="1280"
+          height="720"
+        />
+        <div class="hero__veil"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__mark" aria-hidden="true">
+          <svg class="star-mark" viewBox="0 0 48 48" width="36" height="36" focusable="false">
+            <path
+              fill="currentColor"
+              d="M24 4.5l3.2 9.8h10.3l-8.3 6 3.2 9.8L24 24.1l-8.4 6 3.2-9.8-8.3-6h10.3L24 4.5z"
+            />
+            <circle cx="24" cy="24" r="2.2" fill="#0a2c3a" opacity="0.35"/>
+          </svg>
+        </p>
+        <h1 class="brand">Holy Rosary</h1>
+        <p class="lede">
+          Pray beneath the Star of the Sea — choose a mystery and begin.
+        </p>
+        <section
+          class="actions actions--rosary"
+          id="rosary-actions"
+          aria-label="Rosary by mystery set"
+        ></section>
+      </div>
+    </section>
   </main>
 
   <div id="rosary-sheet" class="rosary-sheet hidden" aria-hidden="true">
@@ -181,7 +211,10 @@ const rosaryNext = document.getElementById('rosary-next')
 const rosaryDialogTitle = document.getElementById('rosary-dialog-title')
 
 /** @type {HTMLElement | null} */
-let rosaryMap = null
+let stellaPath = null
+
+/** @type {string[]} */
+let activeMysteryTitles = []
 
 /** @type {NodeListOf<HTMLInputElement>} */
 const langRadios = document.querySelectorAll('input[name="rosary-lang"]')
@@ -196,26 +229,16 @@ function currentLangMode() {
   return 'en'
 }
 
-function pastVisualIds() {
-  /** @type {Set<string>} */
-  const past = new Set()
-  const active = activeRosarySteps[currentIndex]?.visualId
-  for (let i = 0; i < currentIndex; i++) {
-    const id = activeRosarySteps[i].visualId
-    if (id !== active) past.add(id)
-  }
-  return past
-}
-
-function firstIndexForVisual(visualId) {
-  return activeRosarySteps.findIndex((s) => s.visualId === visualId)
-}
-
 function renderStep() {
   const step = activeRosarySteps[currentIndex]
   if (!step || !rosaryCurrent) return
   renderCurrentPrayer(rosaryCurrent, currentLangMode(), step)
-  if (rosaryPlace) rosaryPlace.textContent = visualPlaceLabel(step.visualId)
+  if (rosaryPlace) {
+    rosaryPlace.textContent = voyagePlaceLabel(
+      step.visualId,
+      activeMysteryTitles
+    )
+  }
   if (rosaryProgress) {
     rosaryProgress.textContent = `${currentIndex + 1} / ${activeRosarySteps.length}`
   }
@@ -226,8 +249,8 @@ function renderStep() {
     const last = currentIndex >= activeRosarySteps.length - 1
     rosaryNext.textContent = last ? 'Finish' : 'Next'
   }
-  if (rosaryMap) {
-    highlightRosaryVisual(rosaryMap, step.visualId, pastVisualIds())
+  if (stellaPath) {
+    highlightStellaPath(stellaPath, step.visualId, currentIndex)
   }
   saveStep()
 }
@@ -248,10 +271,18 @@ function openRosary(rosaryTypeId, opener) {
   lastRosaryButton = opener
   activeRosaryId = rosaryTypeId
   activeRosarySteps = expandRosaryTypeLaidOut(rt)
+  const group = mysteryGroups[rt.mysteryGroupId]
+  activeMysteryTitles = (group?.mysteries ?? []).map((m) => {
+    const p = getPrayer(m.announcementPrayerId)
+    return p?.title ?? m.id
+  })
   currentIndex = loadStep(rosaryTypeId, activeRosarySteps.length)
   if (rosaryDialogTitle) rosaryDialogTitle.textContent = rt.title
   rosaryStage.replaceChildren()
-  rosaryMap = mountRosaryMap(rosaryStage)
+  stellaPath = mountStellaPath(rosaryStage, {
+    steps: activeRosarySteps,
+    mysteryTitles: activeMysteryTitles
+  })
   setVisible(rosarySheet, true)
   renderStep()
   rosaryClose?.focus()
@@ -286,11 +317,17 @@ rosaryNext?.addEventListener('click', () => {
 rosaryStage?.addEventListener('click', (e) => {
   const t = e.target
   if (!(t instanceof Element)) return
-  const part = t.closest('[data-visual]')
-  if (!part) return
-  const visualId = part.getAttribute('data-visual')
-  if (!visualId) return
-  const idx = firstIndexForVisual(visualId)
+  const spark = t.closest('[data-step-index]')
+  if (spark instanceof HTMLElement) {
+    const idx = Number.parseInt(spark.dataset.stepIndex ?? '', 10)
+    if (Number.isFinite(idx)) goTo(idx)
+    return
+  }
+  const station = t.closest('[data-section]')
+  if (!(station instanceof HTMLElement) || !stellaPath) return
+  const section = station.getAttribute('data-section')
+  if (!section) return
+  const idx = firstIndexForStellaSection(stellaPath, section)
   if (idx >= 0) goTo(idx)
 })
 
@@ -298,10 +335,12 @@ rosaryStage?.addEventListener('keydown', (e) => {
   if (e.key !== 'Enter' && e.key !== ' ') return
   const t = e.target
   if (!(t instanceof Element)) return
-  const visualId = t.getAttribute('data-visual')
-  if (!visualId) return
+  const station = t.closest('[data-section]')
+  if (!(station instanceof HTMLElement) || !stellaPath) return
+  const section = station.getAttribute('data-section')
+  if (!section) return
   e.preventDefault()
-  const idx = firstIndexForVisual(visualId)
+  const idx = firstIndexForStellaSection(stellaPath, section)
   if (idx >= 0) goTo(idx)
 })
 

@@ -8,17 +8,22 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icon.svg', 'icon-maskable.svg'],
+      includeAssets: [
+        'favicon.svg',
+        'icon.svg',
+        'icon-maskable.svg',
+        'stella-maris-hero.jpg'
+      ],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,mp3,webm}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,woff2,mp3,webm}']
       },
       manifest: {
         name: 'Holy Rosary',
         short_name: 'Rosary',
         description:
-          'Pray the rosary with beads and prayers in step — installable offline PWA',
-        theme_color: '#1f3a8a',
-        background_color: '#ffffff',
+          'Pray the rosary under Stella Maris — installable offline PWA',
+        theme_color: '#0a2c3a',
+        background_color: '#04151f',
         display: 'standalone',
         start_url: './',
         scope: './',

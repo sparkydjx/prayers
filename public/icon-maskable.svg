@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#1e40af" />
-  <circle cx="256" cy="256" r="168" fill="#ffffff" />
+  <rect width="512" height="512" fill="#04151f" />
+  <circle cx="256" cy="256" r="188" fill="#0a2c3a" />
   <path
-    d="M256 165c-50 0-91 41-91 91 0 48 36 85 81 90v61h20v-61c45-5 81-42 81-90 0-50-41-91-91-91zm0 162c-39 0-71-32-71-71s32-71 71-71 71 32 71 71-32 71-71 71z"
-    fill="#1e40af"
+    fill="#e6d28a"
+    d="M256 110l28 86h90l-73 53 28 86-73-53-73 53 28-86-73-53h90l28-86z"
   />
-  <circle cx="256" cy="256" r="27" fill="#1e40af" />
+  <circle cx="256" cy="256" r="18" fill="#e8f2ef" />
 </svg>
