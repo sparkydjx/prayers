@@ -1,9 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#04151f" />
-  <circle cx="256" cy="256" r="188" fill="#0a2c3a" />
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a5248"/>
+      <stop offset="100%" stop-color="#1c221c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e4c76b"/>
+      <stop offset="100%" stop-color="#7a6224"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#stone)"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#3f5c45" stroke-width="16"/>
   <path
-    fill="#e6d28a"
-    d="M256 110l28 86h90l-73 53 28 86-73-53-73 53 28-86-73-53h90l28-86z"
+    fill="url(#gold)"
+    d="M246 118h20v100h86v20H266v156h-20V238H160v-20h86V118z"
   />
-  <circle cx="256" cy="256" r="18" fill="#e8f2ef" />
 </svg>

@@ -12,7 +12,7 @@ export default defineConfig({
         'favicon.svg',
         'icon.svg',
         'icon-maskable.svg',
-        'stella-maris-hero.jpg'
+        'celtic-abbey-hero.jpg'
       ],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,woff2,mp3,webm}']
@@ -21,9 +21,9 @@ export default defineConfig({
         name: 'Holy Rosary',
         short_name: 'Rosary',
         description:
-          'Pray the rosary under Stella Maris — installable offline PWA',
-        theme_color: '#0a2c3a',
-        background_color: '#04151f',
+          'Pray the rosary in a Celtic abbey setting — installable offline PWA',
+        theme_color: '#2f3630',
+        background_color: '#1c221c',
         display: 'standalone',
         start_url: './',
         scope: './',

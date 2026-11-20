@@ -7,11 +7,11 @@ import {
   getPrayer
 } from './data/index.js'
 import {
-  mountStellaPath,
-  highlightStellaPath,
-  voyagePlaceLabel,
-  firstIndexForStellaSection
-} from './stella-path.js'
+  mountCloisterPath,
+  highlightCloisterPath,
+  cloisterPlaceLabel,
+  firstIndexForCloisterSection
+} from './cloister-path.js'
 
 registerSW({ immediate: true })
 
@@ -111,7 +111,7 @@ document.querySelector('#app').innerHTML = `
       <div class="hero__media" aria-hidden="true">
         <img
           class="hero__image"
-          src="./stella-maris-hero.jpg"
+          src="./celtic-abbey-hero.jpg"
           alt=""
           width="1280"
           height="720"
@@ -120,17 +120,14 @@ document.querySelector('#app').innerHTML = `
       </div>
       <div class="hero__content">
         <p class="hero__mark" aria-hidden="true">
-          <svg class="star-mark" viewBox="0 0 48 48" width="36" height="36" focusable="false">
-            <path
-              fill="currentColor"
-              d="M24 4.5l3.2 9.8h10.3l-8.3 6 3.2 9.8L24 24.1l-8.4 6 3.2-9.8-8.3-6h10.3L24 4.5z"
-            />
-            <circle cx="24" cy="24" r="2.2" fill="#0a2c3a" opacity="0.35"/>
+          <svg class="celtic-cross" viewBox="0 0 48 48" width="40" height="40" focusable="false">
+            <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path fill="currentColor" d="M22 6h4v14h12v4H26v18h-4V24H10v-4h12V6z"/>
           </svg>
         </p>
         <h1 class="brand">Holy Rosary</h1>
         <p class="lede">
-          Pray beneath the Star of the Sea — choose a mystery and begin.
+          Step through each prayer as if in a thirteenth-century cloister.
         </p>
         <section
           class="actions actions--rosary"
@@ -194,7 +191,7 @@ if (rosaryActions) {
     btn.className = 'btn btn-primary btn-rosary'
     btn.dataset.rosaryId = rt.id
     const label = mysteryGroups[rt.mysteryGroupId]?.title ?? rt.title
-    btn.textContent = `Rosary — ${label}`
+    btn.textContent = label
     rosaryActions.append(btn)
   }
 }
@@ -211,7 +208,7 @@ const rosaryNext = document.getElementById('rosary-next')
 const rosaryDialogTitle = document.getElementById('rosary-dialog-title')
 
 /** @type {HTMLElement | null} */
-let stellaPath = null
+let cloisterPath = null
 
 /** @type {string[]} */
 let activeMysteryTitles = []
@@ -234,7 +231,7 @@ function renderStep() {
   if (!step || !rosaryCurrent) return
   renderCurrentPrayer(rosaryCurrent, currentLangMode(), step)
   if (rosaryPlace) {
-    rosaryPlace.textContent = voyagePlaceLabel(
+    rosaryPlace.textContent = cloisterPlaceLabel(
       step.visualId,
       activeMysteryTitles
     )
@@ -249,8 +246,8 @@ function renderStep() {
     const last = currentIndex >= activeRosarySteps.length - 1
     rosaryNext.textContent = last ? 'Finish' : 'Next'
   }
-  if (stellaPath) {
-    highlightStellaPath(stellaPath, step.visualId, currentIndex)
+  if (cloisterPath) {
+    highlightCloisterPath(cloisterPath, step.visualId, currentIndex)
   }
   saveStep()
 }
@@ -279,7 +276,7 @@ function openRosary(rosaryTypeId, opener) {
   currentIndex = loadStep(rosaryTypeId, activeRosarySteps.length)
   if (rosaryDialogTitle) rosaryDialogTitle.textContent = rt.title
   rosaryStage.replaceChildren()
-  stellaPath = mountStellaPath(rosaryStage, {
+  cloisterPath = mountCloisterPath(rosaryStage, {
     steps: activeRosarySteps,
     mysteryTitles: activeMysteryTitles
   })
@@ -324,10 +321,10 @@ rosaryStage?.addEventListener('click', (e) => {
     return
   }
   const station = t.closest('[data-section]')
-  if (!(station instanceof HTMLElement) || !stellaPath) return
+  if (!(station instanceof HTMLElement) || !cloisterPath) return
   const section = station.getAttribute('data-section')
   if (!section) return
-  const idx = firstIndexForStellaSection(stellaPath, section)
+  const idx = firstIndexForCloisterSection(cloisterPath, section)
   if (idx >= 0) goTo(idx)
 })
 
@@ -336,11 +333,11 @@ rosaryStage?.addEventListener('keydown', (e) => {
   const t = e.target
   if (!(t instanceof Element)) return
   const station = t.closest('[data-section]')
-  if (!(station instanceof HTMLElement) || !stellaPath) return
+  if (!(station instanceof HTMLElement) || !cloisterPath) return
   const section = station.getAttribute('data-section')
   if (!section) return
   e.preventDefault()
-  const idx = firstIndexForStellaSection(stellaPath, section)
+  const idx = firstIndexForCloisterSection(cloisterPath, section)
   if (idx >= 0) goTo(idx)
 })
 

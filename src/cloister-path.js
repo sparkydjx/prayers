@@ -1,5 +1,5 @@
 /**
- * Stella Maris voyage chart — prayer progress without the rosary bead map.
+ * Cloister progress path — prayer stations without the rosary bead map.
  */
 
 /**
@@ -32,7 +32,7 @@ export function sectionForVisual(visualId) {
  * @param {string} visualId
  * @param {string[]} [mysteryShortTitles]
  */
-export function voyagePlaceLabel(visualId, mysteryShortTitles = []) {
+export function cloisterPlaceLabel(visualId, mysteryShortTitles = []) {
   if (visualId === 'crucifix') return 'Opening · Sign of the Cross'
   if (visualId === 'gold-opening') return 'Opening · Our Father'
   const openingPurple = /^purple-opening-(\d)$/.exec(visualId)
@@ -54,7 +54,7 @@ export function voyagePlaceLabel(visualId, mysteryShortTitles = []) {
   }
   const gapGb = /^gap-gb-(\d)$/.exec(visualId)
   if (gapGb) return `Decade ${gapGb[1]} · Glory & Fatima`
-  if (visualId === 'mary') return 'Closing · Stella Maris'
+  if (visualId === 'mary') return 'Closing · Our Lady'
   return ''
 }
 
@@ -82,44 +82,44 @@ function firstIndexForSection(steps, section) {
  *   mysteryTitles: string[]
  * }} opts
  */
-export function mountStellaPath(container, opts) {
+export function mountCloisterPath(container, opts) {
   const { steps, mysteryTitles } = opts
   const shorts = mysteryTitles.map(shortMysteryTitle)
 
   const root = document.createElement('div')
-  root.className = 'stella-path'
+  root.className = 'cloister-path'
   root.setAttribute('role', 'group')
-  root.setAttribute('aria-label', 'Rosary voyage progress')
+  root.setAttribute('aria-label', 'Rosary cloister progress')
 
   const sky = document.createElement('div')
-  sky.className = 'stella-path__sky'
+  sky.className = 'cloister-path__glow'
   sky.setAttribute('aria-hidden', 'true')
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < 12; i++) {
     const speck = document.createElement('span')
-    speck.className = 'stella-path__speck'
-    speck.style.setProperty('--x', `${6 + ((i * 17) % 88)}%`)
-    speck.style.setProperty('--y', `${10 + ((i * 29) % 70)}%`)
-    speck.style.setProperty('--d', `${(i % 5) * 0.35}s`)
+    speck.className = 'cloister-path__mote'
+    speck.style.setProperty('--x', `${8 + ((i * 19) % 84)}%`)
+    speck.style.setProperty('--y', `${12 + ((i * 31) % 68)}%`)
+    speck.style.setProperty('--d', `${(i % 5) * 0.4}s`)
     sky.append(speck)
   }
 
   const track = document.createElement('ol')
-  track.className = 'stella-path__track'
+  track.className = 'cloister-path__track'
 
   /** @type {{ id: string, label: string, sub: string }[]} */
   const stations = [
-    { id: 'opening', label: 'Opening', sub: 'Shore' },
+    { id: 'opening', label: 'I', sub: 'Narthex' },
     ...shorts.map((title, i) => ({
       id: `decade-${i + 1}`,
       label: `${i + 1}`,
       sub: title
     })),
-    { id: 'closing', label: '★', sub: 'Stella Maris' }
+    { id: 'closing', label: '✠', sub: 'Our Lady' }
   ]
 
   for (const station of stations) {
     const li = document.createElement('li')
-    li.className = 'stella-path__station'
+    li.className = 'cloister-path__station'
     li.dataset.section = station.id
     li.tabIndex = 0
     li.setAttribute('role', 'button')
@@ -133,11 +133,11 @@ export function mountStellaPath(container, opts) {
     )
 
     const node = document.createElement('span')
-    node.className = 'stella-path__node'
+    node.className = 'cloister-path__node'
     node.textContent = station.label
 
     const caption = document.createElement('span')
-    caption.className = 'stella-path__caption'
+    caption.className = 'cloister-path__caption'
     caption.textContent = station.sub
 
     li.append(node, caption)
@@ -145,13 +145,13 @@ export function mountStellaPath(container, opts) {
   }
 
   const detail = document.createElement('div')
-  detail.className = 'stella-path__detail'
+  detail.className = 'cloister-path__detail'
   detail.setAttribute('aria-hidden', 'true')
 
   root.append(sky, track, detail)
   container.replaceChildren(root)
 
-  root._stella = { steps, shorts, detail }
+  root._cloister = { steps, shorts, detail }
   return root
 }
 
@@ -160,13 +160,13 @@ export function mountStellaPath(container, opts) {
  * @param {string | undefined} activeVisualId
  * @param {number} currentIndex
  */
-export function highlightStellaPath(root, activeVisualId, currentIndex) {
-  const state = root._stella
+export function highlightCloisterPath(root, activeVisualId, currentIndex) {
+  const state = root._cloister
   if (!state || !activeVisualId) return
   const { steps, shorts, detail } = state
   const section = sectionForVisual(activeVisualId)
 
-  root.querySelectorAll('.stella-path__station').forEach((el) => {
+  root.querySelectorAll('.cloister-path__station').forEach((el) => {
     const id = el.getAttribute('data-section')
     const stationIndex = firstIndexForSection(steps, id ?? '')
     const isActive = id === section
@@ -188,9 +188,9 @@ export function highlightStellaPath(root, activeVisualId, currentIndex) {
     .filter(({ s }) => sectionForVisual(s.visualId) === section)
 
   const title = document.createElement('p')
-  title.className = 'stella-path__detail-title'
+  title.className = 'cloister-path__detail-title'
   if (section === 'opening') title.textContent = 'Opening prayers'
-  else if (section === 'closing') title.textContent = 'Closing · Stella Maris'
+  else if (section === 'closing') title.textContent = 'Closing · Our Lady'
   else {
     const n = Number(section.split('-')[1])
     title.textContent = shorts[n - 1]
@@ -200,11 +200,11 @@ export function highlightStellaPath(root, activeVisualId, currentIndex) {
   detail.append(title)
 
   const row = document.createElement('div')
-  row.className = 'stella-path__sparks'
+  row.className = 'cloister-path__sparks'
   for (const { s, i } of inSection) {
     const spark = document.createElement('button')
     spark.type = 'button'
-    spark.className = 'stella-path__spark'
+    spark.className = 'cloister-path__spark'
     spark.dataset.stepIndex = String(i)
     spark.setAttribute('aria-label', s.english.title)
     spark.title = s.english.title
@@ -220,8 +220,8 @@ export function highlightStellaPath(root, activeVisualId, currentIndex) {
  * @param {string} sectionId
  * @returns {number}
  */
-export function firstIndexForStellaSection(root, sectionId) {
-  const steps = root._stella?.steps
+export function firstIndexForCloisterSection(root, sectionId) {
+  const steps = root._cloister?.steps
   if (!steps) return -1
   return firstIndexForSection(steps, sectionId)
 }
