@@ -4,9 +4,14 @@ import {
   rosaryTypes,
   expandRosaryTypeLaidOut,
   mysteryGroups,
-  visualPlaceLabel
+  getPrayer
 } from './data/index.js'
-import { mountRosaryMap, highlightRosaryVisual } from './rosary-map.js'
+import {
+  mountCloisterPath,
+  highlightCloisterPath,
+  cloisterPlaceLabel,
+  firstIndexForCloisterSection
+} from './cloister-path.js'
 
 registerSW({ immediate: true })
 
@@ -122,7 +127,7 @@ document.querySelector('#app').innerHTML = `
         </p>
         <h1 class="brand">Holy Rosary</h1>
         <p class="lede">
-          Step through each bead as if in a thirteenth-century cloister.
+          Step through each prayer as if in a thirteenth-century cloister.
         </p>
         <section
           class="actions actions--rosary"
@@ -203,7 +208,10 @@ const rosaryNext = document.getElementById('rosary-next')
 const rosaryDialogTitle = document.getElementById('rosary-dialog-title')
 
 /** @type {HTMLElement | null} */
-let rosaryMap = null
+let cloisterPath = null
+
+/** @type {string[]} */
+let activeMysteryTitles = []
 
 /** @type {NodeListOf<HTMLInputElement>} */
 const langRadios = document.querySelectorAll('input[name="rosary-lang"]')
@@ -218,26 +226,16 @@ function currentLangMode() {
   return 'en'
 }
 
-function pastVisualIds() {
-  /** @type {Set<string>} */
-  const past = new Set()
-  const active = activeRosarySteps[currentIndex]?.visualId
-  for (let i = 0; i < currentIndex; i++) {
-    const id = activeRosarySteps[i].visualId
-    if (id !== active) past.add(id)
-  }
-  return past
-}
-
-function firstIndexForVisual(visualId) {
-  return activeRosarySteps.findIndex((s) => s.visualId === visualId)
-}
-
 function renderStep() {
   const step = activeRosarySteps[currentIndex]
   if (!step || !rosaryCurrent) return
   renderCurrentPrayer(rosaryCurrent, currentLangMode(), step)
-  if (rosaryPlace) rosaryPlace.textContent = visualPlaceLabel(step.visualId)
+  if (rosaryPlace) {
+    rosaryPlace.textContent = cloisterPlaceLabel(
+      step.visualId,
+      activeMysteryTitles
+    )
+  }
   if (rosaryProgress) {
     rosaryProgress.textContent = `${currentIndex + 1} / ${activeRosarySteps.length}`
   }
@@ -248,8 +246,8 @@ function renderStep() {
     const last = currentIndex >= activeRosarySteps.length - 1
     rosaryNext.textContent = last ? 'Finish' : 'Next'
   }
-  if (rosaryMap) {
-    highlightRosaryVisual(rosaryMap, step.visualId, pastVisualIds())
+  if (cloisterPath) {
+    highlightCloisterPath(cloisterPath, step.visualId, currentIndex)
   }
   saveStep()
 }
@@ -270,10 +268,18 @@ function openRosary(rosaryTypeId, opener) {
   lastRosaryButton = opener
   activeRosaryId = rosaryTypeId
   activeRosarySteps = expandRosaryTypeLaidOut(rt)
+  const group = mysteryGroups[rt.mysteryGroupId]
+  activeMysteryTitles = (group?.mysteries ?? []).map((m) => {
+    const p = getPrayer(m.announcementPrayerId)
+    return p?.title ?? m.id
+  })
   currentIndex = loadStep(rosaryTypeId, activeRosarySteps.length)
   if (rosaryDialogTitle) rosaryDialogTitle.textContent = rt.title
   rosaryStage.replaceChildren()
-  rosaryMap = mountRosaryMap(rosaryStage)
+  cloisterPath = mountCloisterPath(rosaryStage, {
+    steps: activeRosarySteps,
+    mysteryTitles: activeMysteryTitles
+  })
   setVisible(rosarySheet, true)
   renderStep()
   rosaryClose?.focus()
@@ -308,11 +314,17 @@ rosaryNext?.addEventListener('click', () => {
 rosaryStage?.addEventListener('click', (e) => {
   const t = e.target
   if (!(t instanceof Element)) return
-  const part = t.closest('[data-visual]')
-  if (!part) return
-  const visualId = part.getAttribute('data-visual')
-  if (!visualId) return
-  const idx = firstIndexForVisual(visualId)
+  const spark = t.closest('[data-step-index]')
+  if (spark instanceof HTMLElement) {
+    const idx = Number.parseInt(spark.dataset.stepIndex ?? '', 10)
+    if (Number.isFinite(idx)) goTo(idx)
+    return
+  }
+  const station = t.closest('[data-section]')
+  if (!(station instanceof HTMLElement) || !cloisterPath) return
+  const section = station.getAttribute('data-section')
+  if (!section) return
+  const idx = firstIndexForCloisterSection(cloisterPath, section)
   if (idx >= 0) goTo(idx)
 })
 
@@ -320,10 +332,12 @@ rosaryStage?.addEventListener('keydown', (e) => {
   if (e.key !== 'Enter' && e.key !== ' ') return
   const t = e.target
   if (!(t instanceof Element)) return
-  const visualId = t.getAttribute('data-visual')
-  if (!visualId) return
+  const station = t.closest('[data-section]')
+  if (!(station instanceof HTMLElement) || !cloisterPath) return
+  const section = station.getAttribute('data-section')
+  if (!section) return
   e.preventDefault()
-  const idx = firstIndexForVisual(visualId)
+  const idx = firstIndexForCloisterSection(cloisterPath, section)
   if (idx >= 0) goTo(idx)
 })
 

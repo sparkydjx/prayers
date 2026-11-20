@@ -452,54 +452,235 @@ body {
 }
 
 .rosary-stage {
-  flex: 1 1 42%;
-  min-height: 12rem;
+  flex: 1 1 38%;
+  min-height: 11rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 0.25rem 0.5rem 0.5rem;
+  padding: 0.75rem 0.75rem 0.65rem;
   overflow: auto;
   background:
     radial-gradient(
       ellipse at 50% 20%,
-      rgba(30, 58, 76, 0.45),
+      rgba(63, 92, 69, 0.28),
       transparent 55%
     ),
     linear-gradient(180deg, #1a221c 0%, #121612 100%);
 }
 
-.rosary-stage .rosary {
-  zoom: 0.78;
+/* —— Cloister progress path (no bead map) —— */
+.cloister-path {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 0.35rem 0.15rem 0.15rem;
 }
 
-.rosary-stage [data-visual] {
+.cloister-path__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloister-path__mote {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(212, 188, 106, 0.55);
+  animation: mote-glow 4s ease-in-out infinite;
+  animation-delay: var(--d);
+}
+
+.cloister-path__track {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 1.1rem 0.35rem 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+  align-items: start;
+}
+
+.cloister-path__track::before {
+  content: '';
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 1.85rem;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(109, 118, 104, 0.55),
+    rgba(184, 151, 61, 0.7),
+    rgba(109, 118, 104, 0.55),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.cloister-path__station {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
   cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  outline: none;
 }
 
-.rosary-stage [data-visual].is-past {
-  opacity: 0.45;
-}
-
-.rosary-stage [data-visual].is-active {
-  filter: drop-shadow(0 0 8px rgba(212, 188, 106, 0.9));
-  opacity: 1;
-}
-
-.rosary-stage circle[data-visual].is-active {
-  stroke: #fff3a0;
-  stroke-width: 2.8;
-}
-
-.rosary-stage svg line[data-visual].is-active {
-  display: inline;
-  stroke: var(--gold-soft);
-  stroke-width: 4;
-}
-
-.rosary-stage .mary-container.is-active .mary-image,
-.rosary-stage .crucifix-image.is-active {
-  outline: 3px solid var(--gold-soft);
+.cloister-path__station:focus-visible .cloister-path__node {
+  outline: 2px solid var(--gold-soft);
   outline-offset: 3px;
+}
+
+.cloister-path__node {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 0.2rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--limestone);
+  background: rgba(18, 22, 18, 0.78);
+  border: 1.5px solid rgba(184, 151, 61, 0.45);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.cloister-path__caption {
+  font-size: 0.62rem;
+  line-height: 1.25;
+  text-align: center;
+  color: rgba(167, 174, 163, 0.9);
+  max-width: 5.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cloister-path__station.is-past .cloister-path__node {
+  opacity: 0.5;
+  border-color: rgba(109, 118, 104, 0.35);
+}
+
+.cloister-path__station.is-active .cloister-path__node {
+  background: rgba(212, 188, 106, 0.95);
+  color: var(--stone-950);
+  border-color: var(--gold-soft);
+  transform: scale(1.08);
+}
+
+.cloister-path__station.is-active .cloister-path__caption {
+  color: var(--gold-soft);
+}
+
+.cloister-path__detail {
+  position: relative;
+  z-index: 1;
+  padding: 0.55rem 0.65rem 0.7rem;
+  border-radius: 0.2rem;
+  background: rgba(18, 22, 18, 0.5);
+  border: 1px solid rgba(184, 151, 61, 0.28);
+}
+
+.cloister-path__detail-title {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--limestone);
+  text-align: center;
+}
+
+.cloister-path__sparks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.cloister-path__spark {
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  border-radius: 0.15rem;
+  border: 1px solid rgba(184, 151, 61, 0.4);
+  background: rgba(215, 217, 208, 0.18);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.cloister-path__spark.is-past {
+  background: rgba(63, 92, 69, 0.75);
+  border-color: rgba(63, 92, 69, 0.9);
+}
+
+.cloister-path__spark.is-active {
+  background: var(--gold);
+  border-color: var(--gold-soft);
+  transform: scale(1.35);
+}
+
+.cloister-path__spark:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+
+@keyframes mote-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@media (max-width: 640px) {
+  .cloister-path__track {
+    gap: 0.2rem;
+    padding-inline: 0;
+  }
+
+  .cloister-path__node {
+    width: 1.85rem;
+    height: 1.85rem;
+    font-size: 0.7rem;
+  }
+
+  .cloister-path__caption {
+    font-size: 0.55rem;
+    max-width: 4.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloister-path__mote {
+    animation: none;
+  }
 }
 
 .rosary-place {
